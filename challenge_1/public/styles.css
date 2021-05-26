@@ -1,0 +1,16 @@
+body {
+  background: rgb(14,18,24);
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  color: rgb(200,209,217);
+}
+
+.pagination {
+  display: inline-block;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.paginate, .previous, .next {
+  display: inline-block;
+  margin: 5px;
+}
