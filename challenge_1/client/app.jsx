@@ -7,11 +7,19 @@ const App = () => {
   const [data, setData] = useState([]);
   const [query, setQuery] = useState('Asclepieion');
   const [url, setUrl] = useState('http://localhost:3000/events?q=Asclepieion');
+  const [isError, setIsError] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios(url);
+      setIsError(false);
 
-      setData(result.data);
+      try {
+        const result = await axios(url);
+
+        setData(result.data);
+      } catch (err) {
+        setIsError(true);
+      }
     }
 
     fetchData();
@@ -20,13 +28,17 @@ const App = () => {
   return (
     <>
       <h1>Historical Events Finder</h1>
+
       <form onSubmit={e => {
         setUrl(`http://localhost:3000/events?q=${query}`);
         e.preventDefault();
       }}>
-        <input type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} />
+        <input type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)}/>
         <button type="submit">Search</button>
       </form>
+
+      {isError && <div>Something went wrong ...</div>}
+
       <ul>
         {data.map((item, index) => (
           <Event key={index} event={item}/>
