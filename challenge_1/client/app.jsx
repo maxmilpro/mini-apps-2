@@ -5,25 +5,23 @@ import Event from './components/Event.jsx';
 
 const App = () => {
   const [data, setData] = useState([]);
-  const [query, setQuery] = useState('');
-  const [search, setSearch] = useState('');
+  const [query, setQuery] = useState('Asclepieion');
+  const [url, setUrl] = useState('http://localhost:3000/events?q=Asclepieion');
   useEffect(() => {
-    let ignore = false;
+    const fetchData = async () => {
+      const result = await axios(url);
 
-    async function fetchData() {
-      const result = await axios(`http://localhost:3000/events?q=${search}`);
-      if (!ignore) setData(result.data);
+      setData(result.data);
     }
 
     fetchData();
-    return () => { ignore = true; }
-  }, [search]);
+  }, [url]);
 
   return (
     <>
       <h1>Historical Events Finder</h1>
       <form onSubmit={e => {
-        setSearch(query);
+        setUrl(`http://localhost:3000/events?q=${query}`);
         e.preventDefault();
       }}>
         <input type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)} />
