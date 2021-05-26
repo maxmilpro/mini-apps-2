@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Event from './components/Event.jsx';
+import Search from './components/Search.jsx';
+import Events from './components/Events.jsx';
 import ReactPaginate from 'react-paginate';
 
 const App = () => {
@@ -35,24 +36,11 @@ const App = () => {
   return (
     <>
       <h1>Historical Events Finder</h1>
-
-      <form onSubmit={e => {
-        setUrl(`http://localhost:3000/events?q=${query}`);
-        e.preventDefault();
-      }}>
-        <input type="text" value={query} placeholder="Search" onChange={e => setQuery(e.target.value)}/>
-        <button type="submit">Search</button>
-      </form>
+      <Search setUrl={setUrl} query={query} setQuery={setQuery}/>
 
       {isError && <div>Something went wrong ...</div>}
 
-      <div>
-        <ul>
-          {data.map((item, index) => (
-            <Event key={index} event={item}/>
-          )).slice(0, 20)}
-        </ul>
-      </div>
+      <Events data={data}/>
       <ReactPaginate
         previousLabel={'previous'}
         nextLabel={'next'}
