@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Scorecard from './components/Scorecard.jsx';
+import PinSelector from './components/PinSelector.jsx';
 
 const App = () => {
   return (
-    <h2>this is react</h2>
+    <>
+      <Scorecard/>
+      <PinSelector/>
+    </>
   )
 }
 
