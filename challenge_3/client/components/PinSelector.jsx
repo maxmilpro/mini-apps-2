@@ -1,10 +1,12 @@
-import React from 'React';
+import React from 'react';
 
-const PinSelector = () => {
+const PinSelector = ({ rolls, setRolls }) => {
   return (
     <div>
       {
-        [...new Array(10)].map((element, index) => <div>{index + 1}</div>)
+        [...new Array(10)].map((element, index) => {
+          return <div key={index + 1} onClick={(e) => {setRolls([...rolls, Number(e.target.textContent)])}}>{index + 1}</div>
+        })
       }
     </div>
   )

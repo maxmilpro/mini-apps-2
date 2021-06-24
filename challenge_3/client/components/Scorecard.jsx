@@ -2,13 +2,13 @@ import React from 'react';
 import { Rounds } from '../styles/Scorecard.jsx';
 import Frame from './Frame.jsx';
 
-const Scorecard = () => {
+const Scorecard = ( {frames} ) => {
   return (
     <div>
       <h3>Scorecard</h3>
       <Rounds>
         {
-          [...new Array(10)].map((element, index) => <Frame key={index} round={index + 1}/>)
+          frames.map((element, index) => <Frame key={index + 1} round={index + 1} rolls={element}/>)
         }
       </Rounds>
     </div>
