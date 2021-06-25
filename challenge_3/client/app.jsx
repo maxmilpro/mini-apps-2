@@ -15,7 +15,7 @@ const App = () => {
     if (frames.length > 8) {
       setMaxRolls(3);
     }
-  })
+  }, [rolls]);
 
   useEffect(() => {
     if (rolls.length === maxRolls) {
@@ -35,12 +35,15 @@ const App = () => {
       const currentFrame = frames[i];
       const firstRoll = currentFrame[0];
       const secondRoll = currentFrame[1];
+      const thirdRoll = currentFrame[2];
       const [firstBonusRoll, secondBonusRoll] = ([frames[i + 1], frames[i + 2]]).flat();
       // debugger;
       if (firstRoll === 10 && currentFrame.length === 1) {
         score += (firstRoll + (firstBonusRoll || 0) + (secondBonusRoll || 0));
       } else if (firstRoll === 10 && currentFrame.length === 3) {
-        score += (firstRoll + secondRoll + currentFrame[2]);
+        score += (firstRoll + secondRoll + thirdRoll);
+      } else if (firstRoll + secondRoll === 10 && currentFrame.length === 3) {
+        score += (firstRoll + secondRoll + thirdRoll);
       } else if (firstRoll + secondRoll === 10) {
         score += (10 + (firstBonusRoll || 0));
       } else {
