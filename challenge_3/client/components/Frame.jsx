@@ -6,8 +6,9 @@ const Frame = ({ round, rolls, score }) => {
     <StyledFrame>
       <Round>Round: {round}</Round>
       <Rolls>
-        <Roll>{rolls[0]}</Roll>
-        <Roll>{rolls[1]}</Roll>
+        {
+          rolls.map(roll => <Roll>{roll}</Roll>)
+        }
       </Rolls>
       <RunningScore>{score}</RunningScore>
     </StyledFrame>
