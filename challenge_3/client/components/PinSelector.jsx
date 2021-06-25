@@ -1,14 +1,15 @@
 import React from 'react';
+import { StyledPinSelector, Pins } from '../styles/PinSelector.jsx'
 
 const PinSelector = ({ rolls, setRolls }) => {
   return (
-    <div>
+    <StyledPinSelector>
       {
         [...new Array(11)].map((element, index) => {
-          return <div key={index} onClick={(e) => {setRolls([...rolls, Number(e.target.textContent)])}}>{index}</div>
+          return <Pins key={index} onClick={(e) => {setRolls([...rolls, Number(e.target.textContent)])}}>{index}</Pins>
         })
       }
-    </div>
+    </StyledPinSelector>
   )
 };
 

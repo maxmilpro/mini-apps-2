@@ -1,10 +1,10 @@
 import React from 'react';
-import { Rounds, TotalScore } from '../styles/Scorecard.jsx';
+import { StyledScoreCard, Rounds, TotalScore } from '../styles/Scorecard.jsx';
 import Frame from './Frame.jsx';
 
 const Scorecard = ({ frames, scores, totalScore }) => {
   return (
-    <div>
+    <StyledScoreCard>
       <h3>Bowling Scorecard</h3>
       <Rounds>
         {
@@ -17,7 +17,7 @@ const Scorecard = ({ frames, scores, totalScore }) => {
         }
         <TotalScore>Total: {totalScore}</TotalScore>
       </Rounds>
-    </div>
+    </StyledScoreCard>
   )
 };
 

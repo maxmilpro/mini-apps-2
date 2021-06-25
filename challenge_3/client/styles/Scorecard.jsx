@@ -1,5 +1,10 @@
 import styled from 'styled-components'
 
+const StyledScoreCard = styled.div`
+  margin: auto;
+  width: 90%;
+`;
+
 const Rounds = styled.div`
   display: flex;
 `;
@@ -12,6 +17,7 @@ const TotalScore = styled.div`
 `;
 
 export {
+  StyledScoreCard,
   Rounds,
   TotalScore
 };
