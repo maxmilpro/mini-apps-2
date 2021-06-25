@@ -4,8 +4,8 @@ const PinSelector = ({ rolls, setRolls }) => {
   return (
     <div>
       {
-        [...new Array(10)].map((element, index) => {
-          return <div key={index + 1} onClick={(e) => {setRolls([...rolls, Number(e.target.textContent)])}}>{index + 1}</div>
+        [...new Array(11)].map((element, index) => {
+          return <div key={index} onClick={(e) => {setRolls([...rolls, Number(e.target.textContent)])}}>{index}</div>
         })
       }
     </div>

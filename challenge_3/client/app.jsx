@@ -7,8 +7,15 @@ const App = () => {
   const [rolls, setRolls] = useState([]);
   const [frames, setFrames] = useState([]);
   const [scores, setScores] = useState([]);
-  const maxRolls = 2;
-  const maxFrames = 10;
+  const [totalScore, setTotalScore] = useState(0);
+  const [maxRolls, setMaxRolls] = useState(2);
+  const [maxFrames, setMaxFrames] = useState(10);
+
+  useEffect(() => {
+    if (frames.length === 10) {
+      setMaxRolls(3);
+    }
+  });
 
   useEffect(() => {
     if (rolls.length === maxRolls) {
@@ -23,23 +30,28 @@ const App = () => {
 
   useEffect(() => {
     let score = 0;
-    setScores([]);
+    const newScores = [];
     for (let i = 0; i < frames.length; i ++) {
       const currentFrame = frames[i];
-      const rollsFromNextTwoFrames = ([frames[i + 1], frames[i + 2]]).flat();
-      console.log('current frame: ', currentFrame);
-      console.log('1st bonus: ', rollsFromNextTwoFrames[0]);
-      console.log('2nd bonus: ', rollsFromNextTwoFrames[1]);
-      if (currentFrame[0] === 10) {
-        score += (10 + (rollsFromNextTwoFrames[0] || 0) + (rollsFromNextTwoFrames[1] || 0));
-        setScores([...scores, score]);
+      const firstRoll = currentFrame[0];
+      const secondRoll = currentFrame[1];
+      const [firstBonusRoll, secondBonusRoll] = ([frames[i + 1], frames[i + 2]]).flat();
+      if (firstRoll === 10) {
+        score += (firstRoll + (firstBonusRoll || 0) + (secondBonusRoll || 0));
+      } else if (firstRoll + secondRoll === 10) {
+        score += (10 + (firstBonusRoll || 0));
+      } else {
+        score += (firstRoll + secondRoll);
       }
+      newScores.push(score);
     }
+    setScores(newScores);
+    setTotalScore(newScores[newScores.length - 1]);
   }, [frames]);
 
   return (
     <>
-      <Scorecard frames={frames}/>
+      <Scorecard frames={frames} scores={scores} totalScore={totalScore}/>
       <PinSelector rolls={rolls} setRolls={setRolls}/>
     </>
   )
