@@ -16,10 +16,14 @@ export const minesweeperSlice = createSlice({
     },
     sayGoodbye: (state) => {
       state.value = 'goodbye'
+    },
+    toggleVisibility: (state, action) => {
+      const { y, x } = action.payload;
+      state.board[y][x].visible = true;
     }
   }
 });
 
-export const { sayHello, sayGoodbye } = minesweeperSlice.actions;
+export const { sayHello, sayGoodbye, toggleVisibility } = minesweeperSlice.actions;
 
 export default minesweeperSlice.reducer;
