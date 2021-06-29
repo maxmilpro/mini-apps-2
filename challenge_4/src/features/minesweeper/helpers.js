@@ -1,5 +1,5 @@
 const Board = (size) => {
-  const board = [...new Array(size)].map(() => [...new Array(size)].fill().map(() => {return {value: null, visible: false}}));
+  const board = [...new Array(size)].map((e, y) => [...new Array(size)].fill().map((e, x) => {return {value: null, visible: false, y: y, x: x}}));
   const boardWithMines = placeMines(board, size);
   const finalBoard = fillRemainingBoard(boardWithMines);
   return finalBoard;
@@ -36,7 +36,7 @@ const fillRemainingBoard = (board) => {
         }
     }
     return boardCopy;
-}
+};
 
 const getCell = (board, y, x) => {
   const NO_VALUE = null;
@@ -64,7 +64,36 @@ function findSurroundingCells(board, y, x) {
     left:      getCell(board, y,   x-1),
     upLeft:    getCell(board, y-1, x-1)
   }
-}
+};
+
+const revealSquare = (board, y, x) => {
+  // debugger;
+  const square = {...board[y][x]};
+  const row = [...board[y]];
+  let boardCopy = [...board];
+
+  if (square.value === 'X' || square.visible) {
+      return boardCopy;
+  }
+
+  if (square.value > 0) {
+    square.visible = true;
+    row[x] = square;
+    boardCopy[y] = row;
+    return boardCopy;
+  }
+
+  square.visible = true;
+  row[x] = square;
+  boardCopy[y] = row;
+
+  const surroundingCells = findSurroundingCells(boardCopy, y, x);
+  const cellContents = Object.values(surroundingCells).filter(cell => cell !== null);
+  for (let content of cellContents) {
+    boardCopy = revealSquare(boardCopy, content.y, content.x)
+  }
+  return boardCopy;
+};
 
 const randomIndexGenerator = (boardSize) => {
   const randomRow = Math.floor(Math.random() * boardSize);
@@ -78,5 +107,6 @@ export {
   fillRemainingBoard,
   getCell,
   findSurroundingCells,
+  revealSquare,
   randomIndexGenerator
 }

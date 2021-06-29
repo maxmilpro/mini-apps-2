@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Board } from './helpers';
+import { Board, revealSquare } from './helpers';
 
-const newBoard = Board(10);
+export const newBoard = Board(10);
 
 const initialState = {
   board: newBoard,
@@ -20,10 +20,14 @@ export const minesweeperSlice = createSlice({
     toggleVisibility: (state, action) => {
       const { y, x } = action.payload;
       state.board[y][x].visible = true;
+    },
+    findVisibleSquares: (state, action) => {
+      const { board, y, x } = action.payload;
+      state.board = revealSquare(board, y, x)
     }
   }
 });
 
-export const { sayHello, sayGoodbye, toggleVisibility } = minesweeperSlice.actions;
+export const { sayHello, sayGoodbye, toggleVisibility, findVisibleSquares } = minesweeperSlice.actions;
 
 export default minesweeperSlice.reducer;

@@ -1,11 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { toggleVisibility } from '../minesweeperSlice';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleVisibility, findVisibleSquares} from '../minesweeperSlice';
 
 const Square = ({ square, y, x }) => {
-  const dispatch = useDispatch();
   const {value, visible} = square;
+  const board = useSelector(state => state.minesweeper.board);
+  const dispatch = useDispatch();
 
   let display;
   if (visible === false) {
@@ -17,7 +17,14 @@ const Square = ({ square, y, x }) => {
   }
 
   return (
-    <div onClick={() => dispatch(toggleVisibility({y, x}))}>{display}</div>
+    <div onClick={() => {
+      if (value === 'X') {
+        dispatch(toggleVisibility({ y, x }))
+        alert('Game Over!')
+      } else {
+        dispatch(findVisibleSquares({ board, y, x }))
+      }
+    }}>{display}</div>
   )
 };
 
