@@ -52,7 +52,7 @@ const getCell = (board, y, x) => {
   return value;
 };
 
-function findSurroundingCells(board, y, x) {
+const findSurroundingCells = (board, y, x) => {
   // Directions are clockwise
   return {
     up:        getCell(board, y-1, x),
@@ -67,7 +67,6 @@ function findSurroundingCells(board, y, x) {
 };
 
 const revealSquare = (board, y, x) => {
-  // debugger;
   const square = {...board[y][x]};
   const row = [...board[y]];
   let boardCopy = [...board];

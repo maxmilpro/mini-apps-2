@@ -4,7 +4,8 @@ import {
   fillRemainingBoard,
   getCell,
   findSurroundingCells,
-  randomIndexGenerator
+  randomIndexGenerator,
+  revealSquare
 } from './helpers';
 
 describe('board generator', () => {
@@ -71,6 +72,52 @@ describe('board generator', () => {
       const finalBoard = fillRemainingBoard(testBoard);
       expect(finalBoard[0][1].value).toEqual(expectedBoard[0][1].value);
       expect(finalBoard[1][1].value).toEqual(expectedBoard[1][1].value);
+    });
+  });
+
+  describe('revealSquare', () => {
+    let testBoard;
+
+    beforeEach(() => {
+      testBoard = [
+        [{"value":1,"visible":false, y:0,x:0},{"value":1,"visible":false,y:0,x:1},{"value":0,"visible":false,y:0,x:2}],
+        [{"value":"X","visible":false,y:1,x:0},{"value":1,"visible":false,y:1,x:1},{"value":0,"visible":false,y:1,x:2}],
+        [{"value":1,"visible":false,y:2,x:0},{"value":1,"visible":false,y:2,x:1},{"value":0,"visible":false,y:2,x:2}]
+      ];
+    });
+
+    it('should reveal only one square if adjacent squares have mines', () => {
+      const expected = [
+        [{"value":1,"visible":true, y:0,x:0},{"value":1,"visible":false,y:0,x:1},{"value":0,"visible":false,y:0,x:2}],
+        [{"value":"X","visible":false,y:1,x:0},{"value":1,"visible":false,y:1,x:1},{"value":0,"visible":false,y:1,x:2}],
+        [{"value":1,"visible":false,y:2,x:0},{"value":1,"visible":false,y:2,x:1},{"value":0,"visible":false,y:2,x:2}]
+      ];
+
+      expect(testBoard[0][0].visible).not.toEqual(expected[0][0].visible);
+      expect(testBoard[0][1].visible).toEqual(expected[0][1].visible);
+
+      const result = revealSquare(testBoard, 0, 0);
+
+      expect(result[0][0].visible).toEqual(expected[0][0].visible);
+      expect(result[0][1].visible).toEqual(expected[0][1].visible);
+      expect(result).toEqual(expected);
+    });
+
+    it('should reveal multiple squares if adjacent squares do not have mines', () => {
+      const expected = [
+        [{"value":1,"visible":false, y:0,x:0},{"value":1,"visible":true,y:0,x:1},{"value":0,"visible":true,y:0,x:2}],
+        [{"value":"X","visible":false,y:1,x:0},{"value":1,"visible":true,y:1,x:1},{"value":0,"visible":true,y:1,x:2}],
+        [{"value":1,"visible":false,y:2,x:0},{"value":1,"visible":true,y:2,x:1},{"value":0,"visible":true,y:2,x:2}]
+      ]
+
+      expect(testBoard[0][2].visible).not.toEqual(expected[0][2].visible);
+      expect(testBoard[1][1].visible).not.toEqual(expected[1][1].visible);
+
+      const result = revealSquare(testBoard, 0, 2);
+
+      expect(result[0][2].visible).toEqual(expected[0][2].visible);
+      expect(result[1][1].visible).toEqual(expected[1][1].visible);
+      expect(result).toEqual(expected);
     });
   });
 });
