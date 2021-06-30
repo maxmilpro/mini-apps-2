@@ -1,19 +1,15 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { sayHello, sayGoodbye } from './minesweeperSlice';
+import { useSelector } from 'react-redux';
 import Board from './components/Board';
+import styles from './Minesweeper.module.css';
 
 const Minesweeper = () => {
-  const greeting = useSelector((state) => state.minesweeper.value);
   const board = useSelector((state) => state.minesweeper.board);
-  const dispatch = useDispatch();
 
   return (
     <div>
+      <div className={styles.title}>Minesweeper</div>
       <Board board={board}/>
-      <div>This is the Greeting: {greeting}</div>
-      <button onClick={() => dispatch(sayHello())}>Say Hello</button>
-      <button onClick={() => dispatch(sayGoodbye())}>Say Goodbye</button>
     </div>
   )
 }
