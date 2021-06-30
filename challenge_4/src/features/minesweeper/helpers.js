@@ -53,7 +53,6 @@ const getCell = (board, y, x) => {
 };
 
 const findSurroundingCells = (board, y, x) => {
-  // Directions are clockwise
   return {
     up:        getCell(board, y-1, x),
     upRight:   getCell(board, y-1, x+1),
