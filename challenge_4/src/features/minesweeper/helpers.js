@@ -100,6 +100,19 @@ const randomIndexGenerator = (boardSize) => {
   return [randomRow, randomColumn];
 };
 
+const checkForWinner = (board) => {
+  if (!Array.isArray(board)) {
+    return false;
+  }
+  const flatBoard = board.flat();
+  for (let i = 0; i < flatBoard.length; i++) {
+    if (flatBoard[i].value >= 0 && flatBoard[i].visible === false) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export {
   Board,
   placeMines,
@@ -107,5 +120,6 @@ export {
   getCell,
   findSurroundingCells,
   revealSquare,
-  randomIndexGenerator
+  randomIndexGenerator,
+  checkForWinner
 }

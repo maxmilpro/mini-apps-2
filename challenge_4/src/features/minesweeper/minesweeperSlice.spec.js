@@ -2,10 +2,9 @@ import {
   Board,
   placeMines,
   fillRemainingBoard,
-  getCell,
-  findSurroundingCells,
   randomIndexGenerator,
-  revealSquare
+  revealSquare,
+  checkForWinner
 } from './helpers';
 
 describe('board generator', () => {
@@ -119,5 +118,38 @@ describe('board generator', () => {
       expect(result[1][1].visible).toEqual(expected[1][1].visible);
       expect(result).toEqual(expected);
     });
+  });
+
+  describe('checkForWinner', () => {
+    let winner, loser;
+
+    beforeEach(() => {
+      winner = [
+        [{"value":1,"visible":true, y:0,x:0},{"value":1,"visible":true,y:0,x:1},{"value":0,"visible":true,y:0,x:2}],
+        [{"value":"X","visible":false,y:1,x:0},{"value":1,"visible":true,y:1,x:1},{"value":0,"visible":true,y:1,x:2}],
+        [{"value":1,"visible":true,y:2,x:0},{"value":1,"visible":true,y:2,x:1},{"value":0,"visible":true,y:2,x:2}]
+      ];
+      loser = [
+        [{"value":1,"visible":false, y:0,x:0},{"value":1,"visible":false,y:0,x:1},{"value":0,"visible":false,y:0,x:2}],
+        [{"value":"X","visible":false,y:1,x:0},{"value":1,"visible":false,y:1,x:1},{"value":0,"visible":false,y:1,x:2}],
+        [{"value":1,"visible":false,y:2,x:0},{"value":1,"visible":false,y:2,x:1},{"value":0,"visible":false,y:2,x:2}]
+      ];
+    });
+
+    it('should return a boolean', () => {
+      expect(typeof checkForWinner(winner)).toBe('boolean');
+    });
+
+    it('should return false if the input is not an array', () => {
+      expect(checkForWinner('string')).toBe(false);
+    });
+
+    it('should find a winner if all non-mine squares are visbile', () => {
+      expect(checkForWinner(winner)).toBe(true);
+    });
+
+    it('should not find a winner if all non-mine squares are not visible', () => {
+      expect(checkForWinner(loser)).toBe(false);
+    })
   });
 });
